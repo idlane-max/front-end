@@ -1,0 +1,293 @@
+/* Importation de la police Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Variables CSS */
+:root {
+    --primary: #7c3aed;
+    --primary-hover: #6d28d9;
+    --secondary: #10b981;
+    --accent: #f59e0b;
+    --text: #1f2937;
+    --text-light: #6b7280;
+    --border: #e5e7eb;
+    --bg-checked: #f5f3ff;
+    --bg-section: #ffffff;
+    --bg-body: #f8fafc;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Réinitialisation de base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Styles pour PageRecherche (transférés du HTML) */
+.search-container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Search Header */
+.search-header {
+    background-color: white;
+    padding: 1rem 1.5rem;
+    box-shadow: var(--shadow);
+    z-index: 100;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.search-input {
+    flex: 1;
+    padding: 1rem 1rem 1rem 3rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    font-size: 1rem;
+    background-color: var(--bg-body);
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%236b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    background-size: 1.25rem;
+    box-shadow: var(--shadow);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+
+/* Map Container */
+.map-container {
+    flex: 1;
+    position: relative;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
+
+/* Nearby Events Panel */
+.nearby-events {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 200;
+    transform: translateY(calc(100% - 80px));
+    transition: var(--transition);
+    max-height: 80vh;
+    overflow-y: hidden; /* Par défaut, overflow-y est caché */
+}
+
+.nearby-events.expanded {
+    transform: translateY(0);
+    overflow-y: auto; /* Défilement activé en mode étendu */
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+}
+
+.panel-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.panel-toggle {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.events-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+}
+
+.events-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.events-list {
+    display: inline-flex;
+    gap: 1rem;
+}
+
+/* Event Card */
+.event-card {
+    display: inline-block;
+    width: 220px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    vertical-align: top;
+    white-space: normal;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.event-image {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.event-content {
+    padding: 1rem;
+}
+
+.event-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-details {
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+.event-location {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.event-location i {
+    color: var(--primary);
+    font-size: 0.75rem;
+}
+
+/* Map Marker */
+.map-marker {
+    background-color: var(--primary);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Marker pour la position actuelle */
+.current-location-marker {
+  /* Le style de l'intérieur est inline dans le JS comme il utilise une div */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 300;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.75rem;
+}
+
+.nav-item i {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .event-card {
+        width: 200px;
+    }
+    .nearby-events {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-header {
+        padding: 1rem;
+    }
+    .search-input {
+        padding: 0.85rem 0.85rem 0.85rem 2.5rem;
+        font-size: 0.9rem;
+    }
+    .event-card {
+        width: 180px;
+    }
+    .event-image {
+        height: 100px;
+    }
+}
