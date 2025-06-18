@@ -86,9 +86,9 @@ const Verify = () => {
       setTimeout(() => {
         setLoading(false);
         setBtnMsg(null);
-        alert('Code vérifié avec succès ! Redirection vers la page principale...');
-        // Rediriger vers la page /page-principale
-        navigate('/page-principale'); 
+        alert('Code vérifié avec succès ! Redirection vers la page centre d\'intérêt...');
+        // Rediriger vers la page /centre-interet
+        navigate('/centre-interet');
       }, 1500);
     } else {
       setBtnMsg(<><i className="fas fa-exclamation-circle"></i> Code incomplet</>);

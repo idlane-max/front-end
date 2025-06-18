@@ -1,76 +1,46 @@
-// src/Home2.js
+// src/pages/Home2.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Home2.css'; // IMPORTEZ LE FICHIER CSS
 
 const Home2 = () => {
   const navigate = useNavigate();
 
   return (
-    <div style={styles.container}>
-      <div style={styles.imageRow}>
-        <img src="/assets/img1.jpg" alt="1" style={styles.roundImage} />
-        <img src="/assets/img2.jpg" alt="2" style={styles.roundImage} />
-        <img src="/assets/img3.jpg" alt="3" style={styles.roundImage} />
+    <div className="home2-container">
+      {/* SECTION HAUTE : IMAGES */}
+      <div className="top-images-container">
+        {/* CORRECTION ICI : Supprimez "image" du texte alt */}
+        <img src="/assets/img1.jpg" alt="Vue d'hôtel latérale gauche" className="small-round-image-left" />
+        <img src="/assets/img2.jpg" alt="Marina English Point Hotel" className="main-round-image" />
+        <img src="/assets/img4.jpg" alt="Piscine et parasols" className="small-round-image-right" />
       </div>
 
-      <p style={styles.text}>Découvrez les meilleures activités à Casablanca</p>
+      {/* SECTION BASSE : TEXTES ET BOUTONS */}
+      <div className="content-section">
+        <h1 className="title">Unleash Your Inner Traveller</h1>
+        <p className="description">
+          Your passport to a world of extraordinary hotel experiences. Join us today and unlock a realm
+          of comfort, luxury, and adventure.
+        </p>
 
-      <button style={styles.button} onClick={() => navigate('/page-principale')}>
-        Commencer à explorer
-      </button>
+        <button
+          className="action-button"
+          onClick={() => navigate('/page-principale')} // Ou la page d'exploration réelle
+        >
+          Start Exploring
+          <span className="arrow-icon">→</span> {/* Flèche Unicode */}
+        </button>
 
-      <p style={styles.loginText}>
-        Vous avez déjà un compte ?{' '}
-        <span onClick={() => navigate('/signup')} style={styles.link}>
-          Connectez-vous
-        </span>
-      </p>
+        <p className="login-text">
+          Already have an account?{' '}
+          <span onClick={() => navigate('/login')} className="login-link">
+            Login
+          </span>
+        </p>
+      </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    padding: 20,
-    textAlign: 'center',
-    backgroundColor: '#fff',
-    minHeight: '100vh',
-  },
-  imageRow: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: 20,
-    marginBottom: 20,
-  },
-  roundImage: {
-    width: 80,
-    height: 80,
-    borderRadius: '50%',
-    objectFit: 'cover',
-  },
-  text: {
-    fontSize: 18,
-    marginBottom: 20,
-    color: '#333',
-  },
-  button: {
-    padding: '10px 20px',
-    backgroundColor: '#ff4b5c',
-    color: '#fff',
-    border: 'none',
-    borderRadius: 8,
-    cursor: 'pointer',
-    marginBottom: 15,
-  },
-  loginText: {
-    fontSize: 14,
-    color: '#444',
-  },
-  link: {
-    color: '#007bff',
-    cursor: 'pointer',
-    textDecoration: 'underline',
-  },
 };
 
 export default Home2;

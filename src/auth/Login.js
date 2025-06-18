@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom'; // Importez useNavigate et Link
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Initialisez useNavigate
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -11,10 +13,12 @@ const Login = () => {
   const handleSubmit = e => {
     e.preventDefault();
     setLoading(true);
+    // Simuler un appel API
     setTimeout(() => {
       setLoading(false);
       alert('Connexion réussie ! Redirection en cours...');
-      // window.location.href = '/profile';
+      // Rediriger vers la page /page-principale
+      navigate('/page-principale');
     }, 1500);
   };
 
@@ -81,7 +85,8 @@ const Login = () => {
       </div>
       <p style={styles.loginFooter}>
         Vous n'avez pas de compte ?{' '}
-        <a href="/signup" style={styles.loginLink}>Inscrivez-vous</a>
+        {/* Utilisation de Link pour la navigation */}
+        <Link to="/signup" style={styles.loginLink}>Inscrivez-vous</Link>
       </p>
     </div>
   );

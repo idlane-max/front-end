@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaMapMarkerAlt, FaTag, FaHome, FaHeart, FaCalendarCheck, FaCommentDots, FaUser, FaPlus, FaStar, FaUtensils } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Importez useNavigate
 import './PagePrincipale.css';
 
 function PagePrincipale() {
@@ -47,7 +47,7 @@ function PagePrincipale() {
       title: "Nouvel Élément",
       subtitle: "Description ici"
     };
-    
+
     setCustomSpaces(prevSpaces => {
       const updatedSpaces = [...prevSpaces];
       updatedSpaces[spaceIndex] = {
@@ -56,7 +56,7 @@ function PagePrincipale() {
       };
       return updatedSpaces;
     });
-    
+
     alert('En production, cette fonction permettrait d\'uploader vos propres images et d\'ajouter des descriptions.');
   };
 
@@ -84,7 +84,7 @@ function PagePrincipale() {
           cancelAnimationFrame(rafId);
         }
       };
-      
+
       const handleMouseDown = (e) => {
         isDown = true;
         startX = e.pageX - container.offsetLeft;
@@ -93,7 +93,7 @@ function PagePrincipale() {
         velocity = 0;
         lastTime = performance.now();
       };
-      
+
       const handleMouseLeave = () => {
         isDown = false;
         // Optionnel: Appliquer l'inertie si la souris quitte pendant le drag
@@ -101,14 +101,14 @@ function PagePrincipale() {
           smoothScroll();
         }
       };
-      
+
       const handleMouseUp = () => {
         isDown = false;
         if (Math.abs(velocity) > 0.5) {
           smoothScroll();
         }
       };
-      
+
       let lastTime = performance.now(); // Déclarer lastTime ici pour chaque itération
       const handleMouseMove = (e) => {
         if(!isDown) return;
@@ -116,16 +116,16 @@ function PagePrincipale() {
         const now = performance.now();
         const deltaTime = now - lastTime;
         lastTime = now;
-        
+
         const x = e.pageX - container.offsetLeft;
         const walk = (x - startX) * 2;
         const prevScrollLeft = container.scrollLeft;
         container.scrollLeft = scrollLeft - walk;
-        
+
         // Assurez-vous que deltaTime n'est pas zéro pour éviter la division par zéro
         velocity = deltaTime > 0 ? (container.scrollLeft - prevScrollLeft) / deltaTime : 0;
       };
-      
+
       const handleTouchStart = (e) => {
         isDown = true;
         startX = e.touches[0].pageX - container.offsetLeft;
@@ -134,26 +134,26 @@ function PagePrincipale() {
         velocity = 0;
         lastTime = performance.now();
       };
-      
+
       const handleTouchEnd = () => {
         isDown = false;
         if (Math.abs(velocity) > 0.5) {
           smoothScroll();
         }
       };
-      
+
       const handleTouchMove = (e) => {
         if(!isDown) return;
         e.preventDefault();
         const now = performance.now();
         const deltaTime = now - lastTime;
         lastTime = now;
-        
+
         const x = e.touches[0].pageX - container.offsetLeft;
         const walk = (x - startX) * 2;
         const prevScrollLeft = container.scrollLeft;
         container.scrollLeft = scrollLeft - walk;
-        
+
         velocity = deltaTime > 0 ? (container.scrollLeft - prevScrollLeft) / deltaTime : 0;
       };
 
@@ -178,7 +178,7 @@ function PagePrincipale() {
         cancelAnimationFrame(rafId);
       });
     });
-    
+
     return () => {
       cleanupFns.forEach(fn => fn()); // Exécuter toutes les fonctions de nettoyage
     };
@@ -187,19 +187,19 @@ function PagePrincipale() {
   return (
     <div className="app-main-page">
       <Header activeTab={activeTab} setActiveTab={setActiveTab} />
-      
+
       <div className="main-content-container">
         <Section title="Événements recommandés" seeAllLink="#">
           {/* Utiliser un tableau de ref pour chaque instance */}
           <HorizontalScroll items={events} scrollRef={el => (scrollContainerRefs.current[0] = el)} />
         </Section>
-        
+
         <Section title="Restaurants récents" seeAllLink="#">
           <HorizontalScroll items={restaurants} scrollRef={el => (scrollContainerRefs.current[1] = el)} />
         </Section>
-        
+
         {customSpaces.map((space, index) => (
-          <CustomSpace 
+          <CustomSpace
             key={index}
             title={space.title}
             icon={space.icon}
@@ -208,7 +208,7 @@ function PagePrincipale() {
           />
         ))}
       </div>
-      
+
       <BottomNav />
     </div>
   );
@@ -216,7 +216,12 @@ function PagePrincipale() {
 
 const Header = ({ activeTab, setActiveTab }) => {
   const tabs = ['Événements', 'Restaurants', 'Hôtels'];
-  
+  const navigate = useNavigate(); // Initialisez useNavigate
+
+  const handleSearchClick = () => {
+    navigate('/recherche'); // Redirige vers la page de recherche
+  };
+
   return (
     <header className="header">
       <div className="location-category">
@@ -231,16 +236,18 @@ const Header = ({ activeTab, setActiveTab }) => {
       </div>
 
       <div className="search-bar">
-        <input 
-          type="text" 
-          className="search-input" 
-          placeholder="Rechercher un événement ou restaurant" 
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Rechercher un événement ou restaurant"
+          readOnly // Empêche la saisie directe, on clique pour rechercher
+          onClick={handleSearchClick} // Ajoute l'événement onClick
         />
       </div>
 
       <div className="category-tabs">
         {tabs.map(tab => (
-          <div 
+          <div
             key={tab}
             className={`category-tab ${activeTab === tab ? 'active-tab' : ''}`}
             onClick={() => setActiveTab(tab)}
@@ -322,7 +329,7 @@ const BottomNav = () => {
     { icon: <FaCommentDots />, label: "Messages", path: "#" },
     { icon: <FaUser />, label: "Profil", path: "/profile" }
   ];
-  
+
   return (
     <nav className="bottom-nav">
       {navItems.map((item, index) => (

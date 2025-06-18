@@ -34,14 +34,17 @@ const styles = {
     alignItems: 'center',
   },
   image: {
-    width: 150,
-    height: 150,
+    // 🔍 Agrandissement de l'image
+    width: 250, // Augmenté de 150 à 250
+    height: 250, // Augmenté de 150 à 250
     objectFit: 'contain',
   },
   message: {
-    marginTop: 20,
-    fontSize: 18,
+    marginTop: 30, // Un peu plus d'espace entre l'image et le texte
+    // 🔍 Agrandissement de la police
+    fontSize: 28, // Augmenté de 18 à 28
     color: '#333',
+    fontWeight: 'bold', // Ajout d'un peu de gras pour mieux ressortir
   },
 };
 
